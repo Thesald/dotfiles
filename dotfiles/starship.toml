@@ -1,0 +1,6 @@
+# Still didn't make many configuration here.
+add_newline = false
+[character]
+success_symbol = "[➜](bold green)" 
+[line_break]
+disabled = true

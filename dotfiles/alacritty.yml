@@ -1,0 +1,57 @@
+# Font configuration (changes require restart)
+## JetBrains Mono is not installed by default. You can get the font from "https://download.jetbrains.com/fonts/JetBrainsMono-2.001.zip"
+font:
+  # The size to use.
+  size: 10
+  # The normal (roman) font face to use.
+  normal:
+    family: JetBrains Mono
+    # Style can be specified to pick a specific face.
+    style: Semi Light
+
+  # The bold font face
+  bold:
+    family: JetBrains Mono
+    # Style can be specified to pick a specific face.
+    style: Bold
+
+  # The italic font face
+  italic:
+    family: JetBrains Mono
+    # Style can be specified to pick a specific face.
+    style: Italic
+  offset:
+    y: 1
+padding:
+  x: 2
+  y: 2
+
+colors:
+  primary:
+    background: '#1B1D1E'
+    foreground: '#eeffff'
+
+  normal:
+    black:   '#1f1f1f'
+    red:     '#e53935'
+    green:   '#91b859'
+    yellow:  '#ffb62c'
+    blue:    '#6182b8'
+    magenta: '#ff5370'
+    cyan:    '#39adb5'
+    white:   '#a0a0a0'
+
+  bright:
+    black:   '#4e4e4e'
+    red:     '#ff5370'
+    green:   '#c3e88d'
+    yellow:  '#ffcb6b'
+    blue:    '#82aaff'
+    magenta: '#f07178'
+    cyan:    '#89ddff'
+    white:   '#ffffff'
+window:
+  dimensions:
+    # These specific values open Alacritty as it will be exactly 1/4th of the screen on 1920x1080 resolution + my font settings.
+    columns: 80
+    lines: 19 

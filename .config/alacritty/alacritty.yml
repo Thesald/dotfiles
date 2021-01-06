@@ -7,7 +7,7 @@ font:
   normal:
     family: JetBrains Mono
     # Style can be specified to pick a specific face.
-    style: Semi Light
+    style: Semi Bold
 
   # The bold font face
   bold:
@@ -26,9 +26,11 @@ padding:
   x: 2
   y: 2
 
+background_opacity: 0.8
+
 colors:
   primary:
-    background: '#1B1D1E'
+    background: '#000000'
     foreground: '#eeffff'
 
   normal:
@@ -43,15 +45,10 @@ colors:
 
   bright:
     black:   '#4e4e4e'
-    red:     '#ff5370'
+    red:     '#cc6666'
     green:   '#c3e88d'
     yellow:  '#ffcb6b'
     blue:    '#82aaff'
     magenta: '#f07178'
     cyan:    '#89ddff'
     white:   '#ffffff'
-window:
-  dimensions:
-    # These specific values open Alacritty as it will be exactly 1/4th of the screen on 1920x1080 resolution + my font settings.
-    columns: 80
-    lines: 19 

@@ -1,139 +1,228 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 from typing import List  # noqa: F401
-
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal()
+alt = "mod1"
+myterm = "alacritty"
+color1 = "00897b" # My signature green
+color2 = "b59ddd" # My signature purple-pink
+color3 = "cc6666" # Pastel red
+color4 = "282A2E" # Very dark gray
 
 keys = [
-    # Switch between windows in current stack pane
-    Key([mod], "k", lazy.layout.down(),
-        desc="Move focus down in stack pane"),
-    Key([mod], "j", lazy.layout.up(),
-        desc="Move focus up in stack pane"),
-
-    # Move windows up or down in current stack
-    Key([mod, "control"], "k", lazy.layout.shuffle_down(),
-        desc="Move window down in current stack "),
-    Key([mod, "control"], "j", lazy.layout.shuffle_up(),
-        desc="Move window up in current stack "),
-
-    # Switch window focus to other pane(s) of stack
-    Key([mod], "Tab", lazy.layout.next(),
-        desc="Switch window focus to other pane(s) of stack"),
-
-    # Swap panes of split stack
-    Key([mod, "shift"], "space", lazy.layout.rotate(),
-        desc="Swap panes of split stack"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-
-    # Toggle between different layouts as defined below
-    Key([mod], "space", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-
+    ### QTILE COMMANDS ###
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
-    Key([mod], "r", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
-    Key([mod, "shift"], "q", lazy.spawn("flameshot gui"), desc="Opens flameshot"),
-    Key([mod, "shift"], "m", lazy.spawn("umutmenu"), desc="Opens xmenu"),
-    Key([mod], "e", lazy.spawn("pcmanfm"), desc="Opens pcmanfm"),
+
+    ### WINDOW CONTROLS ###
+    # Move windows
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_up()),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
+    # Resize windows on columns layout
+    Key([mod, "control"], "h", lazy.layout.grow_left()),
+    Key([mod, "control"], "j", lazy.layout.grow_down()),
+    Key([mod, "control"], "k", lazy.layout.grow_up()),
+    Key([mod, "control"], "l", lazy.layout.grow_right()),
+    Key([mod], "n", lazy.layout.normalize()),
+    # Switch window focus
+    Key([mod], "Tab", lazy.layout.next()),
+    Key([mod], 'q', lazy.next_screen()),
+    # Toggle between layouts
+    Key([mod], "space", lazy.next_layout()),
+    # Toggle between split and unsplit
+    Key([mod, "shift"], "Tab", lazy.layout.toggle_split()),
+    # Toggle floating
+    Key([mod, "shift"], "f", lazy.window.toggle_floating()),
+    # Close focused window
+    Key([mod], "w", lazy.window.kill()),
+
+    ### APPLICATION BINDINGS ###
+    Key([mod], "Return", lazy.spawn(myterm)),
+    Key([mod], "r", lazy.spawncmd()),
+    Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
+    Key([mod, "shift"], "m", lazy.spawn("umutmenu")),
+    Key([mod], "e", lazy.spawn("pcmanfm")),
+    Key([mod], "l", lazy.spawn("i3lock -c 000000 -e -f")),
 ]
 
-groups = [Group(i) for i in "1234asdf"]
+group_names = [("+++", {'layout': 'columns'}),
+               ("DEV", {'layout': 'columns'}),
+               ("WWW", {'layout': 'max'}),
+               ("CHAT", {'layout': 'columns'}),
+               ("MUSIC", {'layout': 'columns'}),
+               ("ZOOM", {'layout': 'floating'}),
+]
 
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
+groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-        #     desc="move focused window to group {}".format(i.name)),
-    ])
+for i, (name, kwargs) in enumerate(group_names, 1):
+    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
+
+theme_1 = {
+    "border_focus": color3,
+    "border_focus_stack": color3,
+    "border_normal": color4,
+    "border_normal_stack": color4,
+    "margin": 1,
+    "border_width": 1
+}
 
 layouts = [
-    layout.Columns(),
-    layout.Max(),
-    # layout.Stack(num_stacks=2),
-    # Try more layouts by unleashing below layouts.
-    # layout.Bsp(),
-    # layout.Matrix(),
-    layout.MonadTall(),
-    layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    layout.Columns(**theme_1),
+    layout.Max(**theme_1),
+    layout.Floating(**theme_1),
 ]
 
 widget_defaults = dict(
-    font='sans',
+    font='JetBrains Mono',
     fontsize=12,
-    padding=3,
+    padding=0,
+    borderwidth = 1,
+    border_width = 1,
 )
+
 extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.TextBox(background="00897b",text="MEM",font="JetBrains Mono"),
-                widget.Memory(background="00897b",font="JetBrains Mono",foreground="ffffff",format="{MemUsed}M"),
-                widget.TextBox(background="b59ddd",foreground="000000",font="JetBrains Mono",text="CPU"),
-                widget.CPU(format="{load_percent}%",background="b59ddd",foreground="000000",font="JetBrains Mono"),
-                widget.Clock(format='%H:%M:%S',background="00897b",font="JetBrains Mono"),
-                widget.Systray(),
-            ],
-            24,
+        top=bar.Bar([
+            widget.GroupBox(
+                active = "000000",
+                background = color4,
+                highlight_method = "line",
+                highlight_color = [color3],
+                disable_drag = True,
+                rounded = False,
+                this_current_screen_border = color4,
+                this_screen_border = color3,
+                other_screen_border = color3,
+            ),
+            widget.Prompt(),
+            widget.TaskList(
+                highlight_method = "block",
+                foreground = "000000",
+                padding_x = 2,
+                max_title_width = 300,
+                border = color3,
+                rounded = False,
+            ),
+            widget.TextBox(
+                foreground = color3,
+                background = color4,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Net(
+                format = " ↓{down} ",
+                foreground = "000000",
+                background = color3,
+            ),
+            widget.TextBox(
+                foreground = color4,
+                background = color3,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Net(
+                format = " ↑{up} ",
+                background = color4,
+                foreground = "ffffff",
+            ),
+            widget.TextBox(
+                foreground = color3,
+                background = color4,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Memory(
+                format = " {MemUsed}M ",
+                foreground = "000000",
+                background = color3,
+            ),
+            widget.TextBox(
+                foreground = color4,
+                background = color3,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.CPU(
+                format = " {load_percent}% ",
+                foreground = "ffffff",
+                background = color4,
+            ),
+            widget.TextBox(
+                foreground = color3,
+                background = color4,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Clock(
+                background = color3,
+                foreground = "000000",
+                format = "%H:%M:%S ",
+            ),
+            widget.TextBox(
+                foreground = color4,
+                background = color3,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Systray(
+                background = color4,
+                padding = 3,
+                icon_size = 18,
+            ),
+            widget.Spacer(length=4),
+            widget.CurrentLayoutIcon(scale=0.8),
+        ],
+        20,
+        background = color4,
         ),
     ),
+    Screen(
+        top=bar.Bar([
+            widget.GroupBox(
+                active = "000000",
+                background = color4,
+                highlight_method = "line",
+                highlight_color = [color3],
+                disable_drag = True,
+                rounded = False,
+                this_current_screen_border = color4,
+                this_screen_border = color3,
+                other_screen_border = color3,
+            ),
+            widget.Prompt(),
+            widget.TaskList(
+                foreground = "000000",
+                highlight_method = "block",
+                padding_x = 2,
+                max_title_width = 300,
+                border = color3,
+                rounded = False,
+            ),
+            widget.TextBox(
+                foreground = color3,
+                background = color4,
+                text = "◀",
+                fontsize = "37",
+            ),
+            widget.Clock(
+                background = color3,
+                foreground = "000000",
+                format = "%H:%M:%S ",
+            ),
+        ],
+        20,
+        background = color4,
+        ),
+    ),
+
 ]
 
 # Drag floating layouts.
@@ -146,8 +235,8 @@ mouse = [
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-main = None  # WARNING: this is deprecated and will be removed soon
+dgroups_app_rules = []
+main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
@@ -167,16 +256,8 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'branchdialog'},  # gitk
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    {'wmclass': 'zoom'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"

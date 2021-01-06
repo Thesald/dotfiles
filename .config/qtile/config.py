@@ -34,7 +34,8 @@ keys = [
     # Toggle between layouts
     Key([mod], "space", lazy.next_layout()),
     # Toggle between split and unsplit
-    Key([mod, "shift"], "Tab", lazy.layout.toggle_split()),
+    Key([mod, "shift"], "z", lazy.layout.toggle_split()),
+    Key([mod], "z", lazy.layout.up()),
     # Toggle floating
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
     # Close focused window
@@ -53,7 +54,7 @@ group_names = [("+++", {'layout': 'columns'}),
                ("DEV", {'layout': 'columns'}),
                ("WWW", {'layout': 'max'}),
                ("CHAT", {'layout': 'columns'}),
-               ("MUSIC", {'layout': 'columns'}),
+               ("EXTRA", {'layout': 'columns'}),
                ("ZOOM", {'layout': 'floating'}),
 ]
 
@@ -69,21 +70,26 @@ theme_1 = {
     "border_normal": color4,
     "border_normal_stack": color4,
     "margin": 1,
-    "border_width": 1
+    "border_width": 2,
+}
+theme_2 = {
+    "border_focus": color3,
+    "border_normal": color4,
+    "border_width": 0,
 }
 
 layouts = [
     layout.Columns(**theme_1),
     layout.Max(**theme_1),
-    layout.Floating(**theme_1),
+    layout.Floating(**theme_2),
 ]
 
 widget_defaults = dict(
     font='JetBrains Mono',
     fontsize=12,
     padding=0,
-    borderwidth = 1,
-    border_width = 1,
+    borderwidth = 2,
+    border_width = 2,
 )
 
 extension_defaults = widget_defaults.copy()
@@ -105,7 +111,7 @@ screens = [
             widget.Prompt(),
             widget.TaskList(
                 highlight_method = "block",
-                foreground = "000000",
+                foreground = color4,
                 padding_x = 2,
                 max_title_width = 300,
                 border = color3,
@@ -119,7 +125,7 @@ screens = [
             ),
             widget.Net(
                 format = " ↓{down} ",
-                foreground = "000000",
+                foreground = color4,
                 background = color3,
             ),
             widget.TextBox(
@@ -141,7 +147,7 @@ screens = [
             ),
             widget.Memory(
                 format = " {MemUsed}M ",
-                foreground = "000000",
+                foreground = color4,
                 background = color3,
             ),
             widget.TextBox(
@@ -163,7 +169,7 @@ screens = [
             ),
             widget.Clock(
                 background = color3,
-                foreground = "000000",
+                foreground = color4,
                 format = "%H:%M:%S ",
             ),
             widget.TextBox(
@@ -199,7 +205,7 @@ screens = [
             ),
             widget.Prompt(),
             widget.TaskList(
-                foreground = "000000",
+                foreground = color4,
                 highlight_method = "block",
                 padding_x = 2,
                 max_title_width = 300,
@@ -214,7 +220,7 @@ screens = [
             ),
             widget.Clock(
                 background = color3,
-                foreground = "000000",
+                foreground = color4,
                 format = "%H:%M:%S ",
             ),
         ],

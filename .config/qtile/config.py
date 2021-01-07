@@ -83,8 +83,8 @@ group_names = [("+++", {'layout': 'columns'}),
                ("DEV", {'layout': 'columns'}),
                ("WWW", {'layout': 'max'}),
                ("CHAT", {'layout': 'columns'}),
+               ("ZOOM", {'layout': 'max'}),
                ("EXTRA", {'layout': 'columns'}),
-               ("ZOOM", {'layout': 'floating'}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -113,10 +113,10 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar([
-            widget.Spacer(
-                mouse_callbacks = {lazy.spawn("umutmenu")},
-                length=10
-                ),
+            widget.Image(
+                filename = "~/.config/qtile/icons/python.png",
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
+            ),
             widget.GroupBox(
                 active = "000000",
                 background = color4,

@@ -3,6 +3,7 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
 
+### Variables ###
 mod = "mod4"
 alt = "mod1"
 myterm = "alacritty"
@@ -10,6 +11,34 @@ color1 = "00897b" # My signature green
 color2 = "b59ddd" # My signature purple-pink
 color3 = "cc6666" # Pastel red
 color4 = "282A2E" # Very dark gray
+
+### Themes ###
+
+layout_theme_1 = {
+    "border_focus": color3,
+    "border_focus_stack": color3,
+    "border_normal": color4,
+    "border_normal_stack": color4,
+    "margin": 1,
+    "border_width": 2,
+}
+layout_theme_2 = {
+    "border_focus": color3,
+    "border_normal": color4,
+    "border_width": 0,
+}
+widget_theme_1 = {
+    "foreground": color3,
+    "background": color4,
+    "text": "◀",
+    "fontsize": "37",
+}
+widget_theme_2 = {
+    "foreground": color4,
+    "background": color3,
+    "text": "◀",
+    "fontsize": "37",
+}
 
 keys = [
     ### QTILE COMMANDS ###
@@ -64,24 +93,11 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
 
-theme_1 = {
-    "border_focus": color3,
-    "border_focus_stack": color3,
-    "border_normal": color4,
-    "border_normal_stack": color4,
-    "margin": 1,
-    "border_width": 2,
-}
-theme_2 = {
-    "border_focus": color3,
-    "border_normal": color4,
-    "border_width": 0,
-}
 
 layouts = [
-    layout.Columns(**theme_1),
-    layout.Max(**theme_1),
-    layout.Floating(**theme_2),
+    layout.Columns(**layout_theme_1),
+    layout.Max(**layout_theme_1),
+    layout.Floating(**layout_theme_2),
 ]
 
 widget_defaults = dict(
@@ -97,6 +113,10 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar([
+            widget.Spacer(
+                mouse_callbacks = {lazy.spawn("umutmenu")},
+                length=10
+                ),
             widget.GroupBox(
                 active = "000000",
                 background = color4,
@@ -111,78 +131,50 @@ screens = [
             widget.Prompt(),
             widget.TaskList(
                 highlight_method = "block",
-                foreground = color4,
+                foreground = "000000",
                 padding_x = 2,
                 max_title_width = 300,
                 border = color3,
                 rounded = False,
             ),
-            widget.TextBox(
-                foreground = color3,
-                background = color4,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_1),
             widget.Net(
                 format = " ↓{down} ",
                 foreground = color4,
                 background = color3,
             ),
-            widget.TextBox(
-                foreground = color4,
-                background = color3,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_2),
             widget.Net(
                 format = " ↑{up} ",
                 background = color4,
                 foreground = "ffffff",
             ),
-            widget.TextBox(
-                foreground = color3,
-                background = color4,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_1),
             widget.Memory(
                 format = " {MemUsed}M ",
                 foreground = color4,
                 background = color3,
             ),
-            widget.TextBox(
-                foreground = color4,
-                background = color3,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_2),
             widget.CPU(
                 format = " {load_percent}% ",
                 foreground = "ffffff",
                 background = color4,
             ),
-            widget.TextBox(
-                foreground = color3,
-                background = color4,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_1),
             widget.Clock(
                 background = color3,
                 foreground = color4,
                 format = "%H:%M:%S ",
             ),
-            widget.TextBox(
-                foreground = color4,
-                background = color3,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_2),
             widget.Systray(
                 background = color4,
                 padding = 3,
                 icon_size = 18,
             ),
+            widget.Spacer(length=4),
+            widget.PulseVolume(),
             widget.Spacer(length=4),
             widget.CurrentLayoutIcon(scale=0.8),
         ],
@@ -212,12 +204,7 @@ screens = [
                 border = color3,
                 rounded = False,
             ),
-            widget.TextBox(
-                foreground = color3,
-                background = color4,
-                text = "◀",
-                fontsize = "37",
-            ),
+            widget.TextBox(**widget_theme_1),
             widget.Clock(
                 background = color3,
                 foreground = color4,

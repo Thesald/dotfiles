@@ -63,12 +63,12 @@ keys = [
     # Toggle between layouts
     Key([mod], "space", lazy.next_layout()),
     # Toggle between split and unsplit
-    Key([mod, "shift"], "z", lazy.layout.toggle_split()),
-    Key([mod], "z", lazy.layout.up()),
+    Key([mod, "shift"], "w", lazy.layout.toggle_split()),
+    Key([mod], "w", lazy.layout.up()),
     # Toggle floating
-    Key([mod, "shift"], "f", lazy.window.toggle_floating()),
+    Key([alt, "shift"], "w", lazy.window.toggle_floating()),
     # Close focused window
-    Key([mod], "w", lazy.window.kill()),
+    Key([alt], "F4", lazy.window.kill()),
 
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
@@ -114,7 +114,7 @@ screens = [
     Screen(
         top=bar.Bar([
             widget.Image(
-                filename = "~/.config/qtile/icons/python.png",
+                filename = "~/.icons/cagan.jpg",
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
             ),
             widget.GroupBox(
@@ -136,6 +136,7 @@ screens = [
                 max_title_width = 300,
                 border = color3,
                 rounded = False,
+                icon_size = 0,
             ),
             widget.TextBox(**widget_theme_1),
             widget.Net(
@@ -184,6 +185,10 @@ screens = [
     ),
     Screen(
         top=bar.Bar([
+            widget.Image(
+                filename = "~/.icons/cagan.jpg",
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
+            ),
             widget.GroupBox(
                 active = "000000",
                 background = color4,
@@ -197,12 +202,37 @@ screens = [
             ),
             widget.Prompt(),
             widget.TaskList(
-                foreground = color4,
                 highlight_method = "block",
+                foreground = "000000",
                 padding_x = 2,
                 max_title_width = 300,
                 border = color3,
                 rounded = False,
+                icon_size = 0,
+            ),
+            widget.TextBox(**widget_theme_1),
+            widget.Net(
+                format = " ↓{down} ",
+                foreground = color4,
+                background = color3,
+            ),
+            widget.TextBox(**widget_theme_2),
+            widget.Net(
+                format = " ↑{up} ",
+                background = color4,
+                foreground = "ffffff",
+            ),
+            widget.TextBox(**widget_theme_1),
+            widget.Memory(
+                format = " {MemUsed}M ",
+                foreground = color4,
+                background = color3,
+            ),
+            widget.TextBox(**widget_theme_2),
+            widget.CPU(
+                format = " {load_percent}% ",
+                foreground = "ffffff",
+                background = color4,
             ),
             widget.TextBox(**widget_theme_1),
             widget.Clock(
@@ -210,11 +240,22 @@ screens = [
                 foreground = color4,
                 format = "%H:%M:%S ",
             ),
+            widget.TextBox(**widget_theme_2),
+            widget.Systray(
+                background = color4,
+                padding = 3,
+                icon_size = 18,
+            ),
+            widget.Spacer(length=4),
+            widget.PulseVolume(),
+            widget.Spacer(length=4),
+            widget.CurrentLayoutIcon(scale=0.8),
         ],
         20,
         background = color4,
         ),
     ),
+
 
 ]
 

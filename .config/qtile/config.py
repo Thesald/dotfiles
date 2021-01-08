@@ -29,12 +29,12 @@ layout_theme_2 = {
 }
 widget_theme_1 = {
     "foreground": color3,
-    "background": color4,
+    "background": color2,
     "text": "◀",
     "fontsize": "37",
 }
 widget_theme_2 = {
-    "foreground": color4,
+    "foreground": color2,
     "background": color3,
     "text": "◀",
     "fontsize": "37",
@@ -63,12 +63,12 @@ keys = [
     # Toggle between layouts
     Key([mod], "space", lazy.next_layout()),
     # Toggle between split and unsplit
-    Key([mod, "shift"], "w", lazy.layout.toggle_split()),
-    Key([mod], "w", lazy.layout.up()),
+    Key([mod, "shift"], "a", lazy.layout.toggle_split()),
+    Key([mod], "a", lazy.layout.up()),
     # Toggle floating
-    Key([alt, "shift"], "w", lazy.window.toggle_floating()),
+    Key([mod, "shift"], "f", lazy.window.toggle_floating()),
     # Close focused window
-    Key([alt], "F4", lazy.window.kill()),
+    Key([mod], "w", lazy.window.kill()),
 
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
@@ -79,12 +79,13 @@ keys = [
     Key([mod], "l", lazy.spawn("i3lock -c 000000 -e -f")),
 ]
 
-group_names = [("+++", {'layout': 'columns'}),
-               ("DEV", {'layout': 'columns'}),
-               ("WWW", {'layout': 'max'}),
-               ("CHAT", {'layout': 'columns'}),
-               ("ZOOM", {'layout': 'max'}),
-               ("EXTRA", {'layout': 'columns'}),
+group_names = [ ("DEV", {'layout': 'columns'}),
+                ("WWW", {'layout': 'max'}),
+                ("ZOOM", {'layout': 'columns'}),
+                ("CHAT", {'layout': 'columns'}),
+                ("+++", {'layout': 'columns'}),
+                ("+++", {"layout": "columns"}),
+                ("+++", {'layout': 'columns'}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -97,7 +98,7 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 layouts = [
     layout.Columns(**layout_theme_1),
     layout.Max(**layout_theme_1),
-    layout.Floating(**layout_theme_2),
+    #layout.Floating(**layout_theme_2),
 ]
 
 widget_defaults = dict(
@@ -118,6 +119,7 @@ screens = [
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
             ),
             widget.GroupBox(
+                font = "Noto Sans",
                 active = "000000",
                 background = color4,
                 highlight_method = "line",
@@ -130,6 +132,7 @@ screens = [
             ),
             widget.Prompt(),
             widget.TaskList(
+                font = "Noto Sans",
                 highlight_method = "block",
                 foreground = "000000",
                 padding_x = 2,
@@ -138,46 +141,93 @@ screens = [
                 rounded = False,
                 icon_size = 0,
             ),
+            widget.TextBox(
+                foreground = color2,
+                background = color4,
+                text = "◀",
+                fontsize = 37,
+            ),
+            widget.Spacer(
+                length = 6,
+                background = color2,
+            ),
+            widget.Battery(
+                background = color2,
+                foreground = "000000",
+                format = "{char} {percent:2.0%} {watt:.2f} W",
+                discharge_char = "▽",
+                charge_char = "△",
+                full_char = "□",
+            ),
+            widget.Spacer(length=6, background = color2),
             widget.TextBox(**widget_theme_1),
+            widget.Spacer(length=6, background = color3),
             widget.Net(
-                format = " ↓{down} ",
-                foreground = color4,
+                format = "↓{down}",
+                foreground = "000000",
                 background = color3,
             ),
+            widget.Spacer(length=6, background = color3),
             widget.TextBox(**widget_theme_2),
+            widget.Spacer(length=6, background = color2),
             widget.Net(
-                format = " ↑{up} ",
-                background = color4,
-                foreground = "ffffff",
+                format = "↑{up}",
+                background = color2,
+                foreground = "000000",
             ),
+            widget.Spacer(length=6, background = color2),
             widget.TextBox(**widget_theme_1),
             widget.Memory(
-                format = " {MemUsed}M ",
-                foreground = color4,
+                format = "{MemUsed}M",
+                foreground = "000000",
                 background = color3,
             ),
+            widget.Spacer(length=6, background = color3),
             widget.TextBox(**widget_theme_2),
+            widget.Spacer(length=6, background = color2),
             widget.CPU(
-                format = " {load_percent}% ",
-                foreground = "ffffff",
-                background = color4,
+                format = "{load_percent}%",
+                foreground = "000000",
+                background = color2,
             ),
-            widget.TextBox(**widget_theme_1),
-            widget.Clock(
-                background = color3,
+            widget.Spacer(length=6, background = color2),
+            widget.TextBox(
                 foreground = color4,
-                format = "%H:%M:%S ",
+                background = color2,
+                text = "◀",
+                fontsize = 37,
             ),
-            widget.TextBox(**widget_theme_2),
             widget.Systray(
                 background = color4,
                 padding = 3,
                 icon_size = 18,
             ),
-            widget.Spacer(length=4),
-            widget.PulseVolume(),
-            widget.Spacer(length=4),
-            widget.CurrentLayoutIcon(scale=0.8),
+            widget.Spacer(length = 6),
+            widget.TextBox(
+                foreground = color2,
+                background = color4,
+                text = "◀",
+                fontsize = 37,
+            ),
+            widget.Spacer(length = 2, background = color2),
+            widget.PulseVolume(background = color2, foreground = "000000"),
+            widget.Spacer(length = 6, background = color2,),
+            widget.CurrentLayoutIcon(scale=0.8, background = color2),
+            widget.Spacer(length = 2, background = color2),
+            widget.TextBox(
+                foreground = color3,
+                background = color2,
+                text = "◀",
+                fontsize = 37,
+            ),
+            widget.Spacer(length = 6, background = color3),
+            widget.Clock(
+                background = color3,
+                foreground = "000000",
+                format = "%H:%M:%S",
+            ),
+            widget.Spacer(length = 6, background = color3),
+
         ],
         20,
         background = color4,
@@ -210,53 +260,35 @@ screens = [
                 rounded = False,
                 icon_size = 0,
             ),
-            widget.TextBox(**widget_theme_1),
-            widget.Net(
-                format = " ↓{down} ",
-                foreground = color4,
-                background = color3,
-            ),
-            widget.TextBox(**widget_theme_2),
-            widget.Net(
-                format = " ↑{up} ",
+            widget.TextBox(
+                foreground = color2,
                 background = color4,
-                foreground = "ffffff",
+                text = "◀",
+                fontsize = 37,
             ),
-            widget.TextBox(**widget_theme_1),
-            widget.Memory(
-                format = " {MemUsed}M ",
-                foreground = color4,
-                background = color3,
+            widget.Spacer(length = 2, background = color2),
+            widget.PulseVolume(background = color2, foreground = "000000"),
+            widget.Spacer(length = 6, background = color2,),
+            widget.CurrentLayoutIcon(scale=0.8, background = color2),
+            widget.Spacer(length = 2, background = color2),
+            widget.TextBox(
+                foreground = color3,
+                background = color2,
+                text = "◀",
+                fontsize = 37,
             ),
-            widget.TextBox(**widget_theme_2),
-            widget.CPU(
-                format = " {load_percent}% ",
-                foreground = "ffffff",
-                background = color4,
-            ),
-            widget.TextBox(**widget_theme_1),
+            widget.Spacer(length = 6, background = color3),
             widget.Clock(
                 background = color3,
-                foreground = color4,
-                format = "%H:%M:%S ",
+                foreground = "000000",
+                format = "%H:%M:%S",
             ),
-            widget.TextBox(**widget_theme_2),
-            widget.Systray(
-                background = color4,
-                padding = 3,
-                icon_size = 18,
-            ),
-            widget.Spacer(length=4),
-            widget.PulseVolume(),
-            widget.Spacer(length=4),
-            widget.CurrentLayoutIcon(scale=0.8),
+            widget.Spacer(length = 6, background = color3),
         ],
         20,
         background = color4,
         ),
     ),
-
-
 ]
 
 # Drag floating layouts.
@@ -295,4 +327,4 @@ floating_layout = layout.Floating(float_rules=[
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-wmname = "LG3D"
+wmname = "qtile"

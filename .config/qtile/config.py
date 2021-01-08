@@ -80,7 +80,7 @@ keys = [
 ]
 
 group_names = [ ("DEV", {'layout': 'columns'}),
-                ("WWW", {'layout': 'max'}),
+                ("WWW", {'layout': 'columns'}),
                 ("ZOOM", {'layout': 'columns'}),
                 ("CHAT", {'layout': 'columns'}),
                 ("+++", {'layout': 'columns'}),

@@ -12,6 +12,26 @@ color2 = "b59ddd" # My signature purple-pink
 color3 = "cc6666" # Pastel red
 color4 = "282A2E" # Very dark gray
 
+### Functions ###
+var = "~/.icons/arch.png"
+def m1(qtile):
+    qtile.cmd_spawn('killall dunst'),
+    global var
+    var = "~/.icons/cagan.jpg"
+
+def m2():
+    global var
+    var = "~/.icons/cagan.jpg"
+
+def m3(qtile):
+    qtile.cmd_spawn('dunst &'),
+    global var
+    var = "~/.icons/arch.png"
+
+def m4():
+    global var
+    var = "~/.icons/arch.png"
+
 ### Themes ###
 
 layout_theme_1 = {
@@ -43,12 +63,16 @@ widget_theme_2 = {
 keys = [
     # I specifically gave all window control a binding with shift and control (if shift not possible),
     # and applications simple mod + "one key" bindings. Only bindings on window controls that are
-    # using simple bindings are "q", "a" and "w": which are close to "Tab" on both physically and 
+    # using simple bindings are "q", "a" and "w": which are close to "Tab" on both physically and
     # functionally. This creates more easy learning curve and makes binding more easier to code.
-    
-    ### QTILE COMMANDS ###
+
+    ### QTILE AND SYSTEM COMMANDS ###
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn('pamixer -d 1 && notify-send "Volume" "yay"')),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer -i 1")),
+    Key([], "XF86AudioMute", lazy.spawn("pamixer -t")),
+
 
     ### WINDOW CONTROLS ###
     Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
@@ -77,7 +101,9 @@ keys = [
     Key([mod], "s", lazy.spawn("flameshot gui")),
     Key([mod], "m", lazy.spawn("umutmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
-    Key([mod], "l", lazy.spawn("i3lock -c 000000 -e -f")),
+    Key([mod, "control", alt], "l", lazy.spawn("i3lock -c 000000 -e -f")),
+    Key([mod], "l", lazy.spawn("i3lock -k -c 00000099 --insidevercolor=282a2e --insidewrongcolor=282a2e --insidecolor=282a2e --ringvercolor=cc6666 --ringcolor=cc6666 --line-uses-inside --timecolor=ffffff --datecolor=ffffff --separatorcolor=cc6666"))
+
 ]
 
 group_names = [ ("1", {'layout': 'columns'}),
@@ -87,6 +113,9 @@ group_names = [ ("1", {'layout': 'columns'}),
                 ("5", {'layout': 'columns'}),
                 ("6", {"layout": "columns"}),
                 ("7", {'layout': 'columns'}),
+                ("8", {'layout': 'columns'}),
+                ("9", {'layout': 'columns'}),
+
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -116,7 +145,7 @@ screens = [
     Screen(
         top=bar.Bar([
             widget.Image(
-                filename = "~/.icons/cagan.jpg",
+                filename = "~/.icons/arch.png",
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
             ),
             widget.GroupBox(
@@ -204,19 +233,8 @@ screens = [
             ),
             widget.Spacer(length = 6),
             widget.TextBox(
-                foreground = color2,
-                background = color4,
-                text = "◀",
-                fontsize = 37,
-            ),
-            widget.Spacer(length = 2, background = color2),
-            widget.PulseVolume(background = color2, foreground = "000000"),
-            widget.Spacer(length = 6, background = color2,),
-            widget.CurrentLayoutIcon(scale=0.8, background = color2),
-            widget.Spacer(length = 2, background = color2),
-            widget.TextBox(
                 foreground = color3,
-                background = color2,
+                background = color4,
                 text = "◀",
                 fontsize = 37,
             ),
@@ -225,9 +243,11 @@ screens = [
                 background = color3,
                 foreground = "000000",
                 format = "%H:%M:%S",
+                mouse_callbacks = {'Button1': m1, 'Button3': m3,},
             ),
-            widget.Spacer(length = 6, background = color3),
-
+            widget.Spacer(length = 4, background = color3),
+            widget.CurrentLayoutIcon(scale=0.8, background = color3),
+            widget.Spacer(length = 4, background = color3),
         ],
         20,
         background = color4,
@@ -236,7 +256,7 @@ screens = [
     Screen(
         top=bar.Bar([
             widget.Image(
-                filename = "~/.icons/cagan.jpg",
+                filename = "~/.icons/arch.png",
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
             ),
             widget.GroupBox(
@@ -260,19 +280,8 @@ screens = [
                 icon_size = 0,
             ),
             widget.TextBox(
-                foreground = color2,
-                background = color4,
-                text = "◀",
-                fontsize = 37,
-            ),
-            widget.Spacer(length = 2, background = color2),
-            widget.PulseVolume(background = color2, foreground = "000000"),
-            widget.Spacer(length = 6, background = color2,),
-            widget.CurrentLayoutIcon(scale=0.8, background = color2),
-            widget.Spacer(length = 2, background = color2),
-            widget.TextBox(
                 foreground = color3,
-                background = color2,
+                background = color4,
                 text = "◀",
                 fontsize = 37,
             ),
@@ -281,8 +290,11 @@ screens = [
                 background = color3,
                 foreground = "000000",
                 format = "%H:%M:%S",
+                mouse_callbacks = {'Button1': m1, 'Button3': m3,},
             ),
-            widget.Spacer(length = 6, background = color3),
+            widget.Spacer(length = 4, background = color3),
+            widget.CurrentLayoutIcon(scale=0.8, background = color3),
+            widget.Spacer(length = 4, background = color3),
         ],
         20,
         background = color4,

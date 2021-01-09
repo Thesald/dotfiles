@@ -41,51 +41,51 @@ widget_theme_2 = {
 }
 
 keys = [
+    # I specifically gave all window control a binding with shift and control (if shift not possible),
+    # and applications simple mod + "one key" bindings. Only bindings on window controls that are
+    # using simple bindings are "q", "a" and "w": which are close to "Tab" on both physically and 
+    # functionally. This creates more easy learning curve and makes binding more easier to code.
+    
     ### QTILE COMMANDS ###
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
 
     ### WINDOW CONTROLS ###
-    # Move windows
     Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
     Key([mod, "shift"], "j", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "k", lazy.layout.shuffle_down()),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
-    # Resize windows on columns layout
     Key([mod, "control"], "h", lazy.layout.grow_left()),
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "l", lazy.layout.grow_right()),
-    Key([mod], "n", lazy.layout.normalize()),
-    # Switch window focus
-    Key([mod], "Tab", lazy.layout.next()),
+    Key([mod, "shift"], "n", lazy.layout.normalize()),
+    Key([mod, "shift"], "m", lazy.window.toggle_minimize()),
+    Key([mod, "shift"], "x", lazy.window.toggle_maximize()),
+    Key([mod], "Tab", lazy.group.next_window()),
     Key([mod], 'q', lazy.next_screen()),
-    # Toggle between layouts
     Key([mod], "space", lazy.next_layout()),
-    # Toggle between split and unsplit
     Key([mod, "shift"], "a", lazy.layout.toggle_split()),
     Key([mod], "a", lazy.layout.up()),
-    # Toggle floating
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
-    # Close focused window
     Key([mod], "w", lazy.window.kill()),
 
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
     Key([mod], "r", lazy.spawncmd()),
-    Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
-    Key([mod, "shift"], "m", lazy.spawn("umutmenu")),
+    Key([mod], "s", lazy.spawn("flameshot gui")),
+    Key([mod], "m", lazy.spawn("umutmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
     Key([mod], "l", lazy.spawn("i3lock -c 000000 -e -f")),
 ]
 
-group_names = [ ("DEV", {'layout': 'columns'}),
-                ("WWW", {'layout': 'columns'}),
-                ("ZOOM", {'layout': 'columns'}),
-                ("CHAT", {'layout': 'columns'}),
-                ("+++", {'layout': 'columns'}),
-                ("+++", {"layout": "columns"}),
-                ("+++", {'layout': 'columns'}),
+group_names = [ ("1", {'layout': 'columns'}),
+                ("2", {'layout': 'columns'}),
+                ("3", {'layout': 'columns'}),
+                ("4", {'layout': 'columns'}),
+                ("5", {'layout': 'columns'}),
+                ("6", {"layout": "columns"}),
+                ("7", {'layout': 'columns'}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -130,7 +130,6 @@ screens = [
                 this_screen_border = color3,
                 other_screen_border = color3,
             ),
-            widget.Prompt(),
             widget.TaskList(
                 font = "Noto Sans",
                 highlight_method = "block",
@@ -250,7 +249,6 @@ screens = [
                 this_screen_border = color3,
                 other_screen_border = color3,
             ),
-            widget.Prompt(),
             widget.TaskList(
                 highlight_method = "block",
                 foreground = "000000",

@@ -72,7 +72,8 @@ keys = [
 
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
-    Key([mod], "r", lazy.spawncmd()),
+    Key([mod], "r", lazy.spawn("rofi -show run")),
+    Key(["control"], "space", lazy.spawn("rofi -show run")),
     Key([mod], "s", lazy.spawn("flameshot gui")),
     Key([mod], "m", lazy.spawn("umutmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),

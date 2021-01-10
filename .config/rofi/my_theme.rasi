@@ -1,0 +1,65 @@
+configuration {
+  drun-display-format: "{name}";
+  font: "JetBrains Mono 12";
+  modi: "window,run,drun";
+  show-icons: false;
+}
+
+* {
+  color1: #00897b;
+  color2: #b59ddd;
+  color3: #cc6666;
+  color4: #282A2E;
+  background-color: @color4;
+  border: 0;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
+entry {
+  text-color: @color3;
+  padding: 10 10 0 10;
+}
+
+inputbar {
+  children: [entry];
+}
+
+listview {
+  padding: 0 5 5 5;
+  columns: 3;
+  lines: 9;
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+window {
+  transparency: "real";
+}
+
+element {
+  padding: 3;
+  orientation: vertical;
+  text-color: @color3;
+}
+
+element selected, {
+  text-color: @color4;
+  background-color: @color2;
+}
+
+element normal normal, element alternate normal {
+	text-color: @color3;
+}
+
+element normal urgent, element alternate urgent {
+	text-color: #FF0000;
+}
+
+element normal active, element alternate active {
+	text-color: @color1;
+}

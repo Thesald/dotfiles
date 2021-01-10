@@ -83,6 +83,8 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "l", lazy.layout.grow_right()),
+    Key([mod, "shift"], "o", lazy.layout.shrink()),
+    Key([mod, "shift"], "p", lazy.layout.grow()),
     Key([mod, "shift"], "n", lazy.layout.normalize()),
     Key([mod, "shift"], "m", lazy.window.toggle_minimize()),
     Key([mod, "shift"], "x", lazy.window.toggle_maximize()),
@@ -106,15 +108,15 @@ keys = [
 
 ]
 
-group_names = [ ("1", {'layout': 'columns'}),
-                ("2", {'layout': 'columns'}),
-                ("3", {'layout': 'columns'}),
-                ("4", {'layout': 'columns'}),
-                ("5", {'layout': 'columns'}),
-                ("6", {"layout": "columns"}),
-                ("7", {'layout': 'columns'}),
-                ("8", {'layout': 'columns'}),
-                ("9", {'layout': 'columns'}),
+group_names = [ ("1", {'layout': 'monadtall'}),
+                ("2", {'layout': 'monadtall'}),
+                ("3", {'layout': 'monadtall'}),
+                ("4", {'layout': 'monadtall'}),
+                ("5", {'layout': 'monadtall'}),
+                ("6", {"layout": "monadtall"}),
+                ("7", {'layout': 'monadtall'}),
+                ("8", {'layout': 'monadtall'}),
+                ("9", {'layout': 'monadtall'}),
 
 ]
 
@@ -126,8 +128,9 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 
 
 layouts = [
-    layout.Columns(**layout_theme_1),
+    layout.MonadTall(**layout_theme_1),
     layout.Max(**layout_theme_1),
+    layout.Columns(**layout_theme_1),
     #layout.Floating(**layout_theme_2),
 ]
 

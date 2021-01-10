@@ -16,21 +16,9 @@ color4 = "282A2E" # Very dark gray
 var = "~/.icons/arch.png"
 def m1(qtile):
     qtile.cmd_spawn('killall dunst'),
-    global var
-    var = "~/.icons/cagan.jpg"
-
-def m2():
-    global var
-    var = "~/.icons/cagan.jpg"
 
 def m3(qtile):
     qtile.cmd_spawn('dunst &'),
-    global var
-    var = "~/.icons/arch.png"
-
-def m4():
-    global var
-    var = "~/.icons/arch.png"
 
 ### Themes ###
 
@@ -100,6 +88,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(myterm)),
     Key([mod], "r", lazy.spawn("rofi -show run")),
     Key(["control"], "space", lazy.spawn("rofi -show run")),
+    Key([alt], "Tab", lazy.spawn("rofi -show window")),
     Key([mod], "s", lazy.spawn("flameshot gui")),
     Key([mod], "m", lazy.spawn("umutmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
@@ -108,24 +97,23 @@ keys = [
 
 ]
 
-group_names = [ ("1", {'layout': 'monadtall'}),
-                ("2", {'layout': 'monadtall'}),
-                ("3", {'layout': 'monadtall'}),
-                ("4", {'layout': 'monadtall'}),
-                ("5", {'layout': 'monadtall'}),
-                ("6", {"layout": "monadtall"}),
-                ("7", {'layout': 'monadtall'}),
-                ("8", {'layout': 'monadtall'}),
-                ("9", {'layout': 'monadtall'}),
+### GROUPS ###
 
+groups_info = [
+	("1", ""),
+	("2", ""),
+	("3", ""),
+	("4", ""),
+	("5", ""),
+	("6", ""),
+	("7", ""),
 ]
 
-groups = [Group(name, **kwargs) for name, kwargs in group_names]
-
-for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
-
+groups = []
+for key, icon in groups_info:
+	groups.append(Group(icon))
+	keys.append(Key([mod], key, lazy.group[icon].toscreen()))
+	keys.append(Key([mod, "shift"], key, lazy.window.togroup(icon)))
 
 layouts = [
     layout.MonadTall(**layout_theme_1),
@@ -148,13 +136,16 @@ screens = [
     Screen(
         top=bar.Bar([
             widget.Image(
+                margin = 2,
                 filename = "~/.icons/arch.png",
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
             ),
             widget.GroupBox(
-                font = "Noto Sans",
-                active = "000000",
+                font = "FontAwesome",
+                fontsize = 15,
+                active = color2,
                 background = color4,
+                block_highlight_text_color = "000000",
                 highlight_method = "line",
                 highlight_color = [color3],
                 disable_drag = True,
@@ -172,6 +163,9 @@ screens = [
                 border = color3,
                 rounded = False,
                 icon_size = 0,
+                txt_floating = "",
+                txt_minimized = "",
+                txt_maximized = "",
             ),
             widget.TextBox(
                 foreground = color2,

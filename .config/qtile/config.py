@@ -12,14 +12,6 @@ color2 = "b59ddd" # My signature purple-pink
 color3 = "cc6666" # Pastel red
 color4 = "282A2E" # Very dark gray
 
-### Functions ###
-var = "~/.icons/arch.png"
-def m1(qtile):
-    qtile.cmd_spawn('killall dunst'),
-
-def m3(qtile):
-    qtile.cmd_spawn('dunst &'),
-
 ### Themes ###
 
 layout_theme_1 = {
@@ -65,15 +57,15 @@ keys = [
 
     ### WINDOW CONTROLS ###
     Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
     Key([mod, "control"], "h", lazy.layout.grow_left()),
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "l", lazy.layout.grow_right()),
-    Key([mod, "control"], "o", lazy.layout.shrink_main()),
-    Key([mod, "control"], "p", lazy.layout.grow_main()),
+    Key([mod, "shift"], "o", lazy.layout.shrink_main()),
+    Key([mod, "shift"], "p", lazy.layout.grow_main()),
     Key([mod, "shift"], "n", lazy.layout.normalize()),
     Key([mod, "shift"], "m", lazy.window.toggle_minimize()),
     Key([mod, "shift"], "x", lazy.window.toggle_fullscreen()),
@@ -88,13 +80,14 @@ keys = [
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
     Key([mod], "r", lazy.spawn("rofi -show run")),
-    Key(["control"], "space", lazy.spawn("rofi -show run")),
+    Key(["control"], "space", lazy.spawn("rofi -show combi -combi-modi 'run,drun' -modi combi")),
     Key([alt], "Tab", lazy.spawn("rofi -show window")),
     Key([], "Print", lazy.spawn("flameshot gui")),
-    Key([mod], "m", lazy.spawn("umutmenu")),
+    Key([mod], "m", lazy.spawn("./.config/qtile/scripts/umutmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
-    Key([mod, "control", alt], "l", lazy.spawn("i3lock -c 000000 -e -f")),
-    Key([mod], "l", lazy.spawn("i3lock -k -c 00000099 --insidevercolor=282a2e --insidewrongcolor=282a2e --insidecolor=282a2e --ringvercolor=cc6666 --ringcolor=cc6666 --line-uses-inside --timecolor=ffffff --datecolor=ffffff --separatorcolor=cc6666"))
+    Key([mod, "control", alt], "l", lazy.spawn("./.config/qtile/scripts/i3lock_black")),
+    Key([mod], "l", lazy.spawn("./.config/qtile/scripts/i3lock")),
+    Key([], "Scroll_Lock", lazy.spawn("notify-send 'DUNST_COMMAND_TOGGLE'")),
 
 ]
 
@@ -108,6 +101,8 @@ groups_info = [
 	("5", ""),
 	("6", ""),
 	("7", ""),
+    ("8", ""),
+    ("9", ""),
 ]
 
 groups = []
@@ -139,7 +134,7 @@ screens = [
             widget.Image(
                 margin = 2,
                 filename = "~/.icons/arch.png",
-                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/umutmenu')}
             ),
             widget.GroupBox(
                 font = "FontAwesome",
@@ -234,8 +229,6 @@ screens = [
                 icon_size = 18,
             ),
             widget.Spacer(length = 6),
-            widget.PulseVolume(),
-            widget.Spacer(length = 6),
             widget.TextBox(
                 foreground = color3,
                 background = color4,
@@ -247,7 +240,6 @@ screens = [
                 background = color3,
                 foreground = "000000",
                 format = "%H:%M:%S",
-                mouse_callbacks = {'Button1': m1, 'Button3': m3,},
             ),
             widget.Spacer(length = 4, background = color3),
             widget.CurrentLayoutIcon(scale=0.8, background = color3),
@@ -356,7 +348,6 @@ screens = [
                 background = color3,
                 foreground = "000000",
                 format = "%H:%M:%S",
-                mouse_callbacks = {'Button1': m1, 'Button3': m3,},
             ),
             widget.Spacer(length = 4, background = color3),
             widget.CurrentLayoutIcon(scale=0.8, background = color3),

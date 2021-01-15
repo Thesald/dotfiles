@@ -1,3 +1,4 @@
+import os
 from typing import List  # noqa: F401
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
@@ -10,23 +11,17 @@ myterm = "alacritty"
 color1 = "00897b" # My signature green
 color2 = "b59ddd" # My signature purple-pink
 color3 = "cc6666" # Pastel red
-color4 = "282A2E" # Very dark gray
+color4 = "282a2e" # Very dark gray
 
 ### Themes ###
 
 layout_theme_1 = {
-    "border_focus": color3,
-    "border_focus_stack": color3,
+    "border_focus": color2,
+    "border_focus_stack": color2,
     "border_normal": color4,
     "border_normal_stack": color4,
-    "margin": 1,
-    "border_width": 2,
-}
-layout_theme_2 = {
-    "border_focus": color3,
-    "border_normal": color4,
-    "border_width": 0,
-    "margin": 0,
+    "margin": 3,
+    "border_width": 1,
 }
 widget_theme_1 = {
     "foreground": color3,
@@ -83,26 +78,27 @@ keys = [
     Key(["control"], "space", lazy.spawn("rofi -show combi -combi-modi 'run,drun' -modi combi")),
     Key([alt], "Tab", lazy.spawn("rofi -show window")),
     Key([], "Print", lazy.spawn("flameshot gui")),
-    Key([mod], "m", lazy.spawn("./.config/qtile/scripts/umutmenu")),
+    Key([mod], "m", lazy.spawn("./.config/qtile/scripts/xmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
     Key([mod, "control", alt], "l", lazy.spawn("./.config/qtile/scripts/i3lock_black")),
     Key([mod], "l", lazy.spawn("./.config/qtile/scripts/i3lock")),
     Key([], "Scroll_Lock", lazy.spawn("notify-send 'DUNST_COMMAND_TOGGLE'")),
+    Key([mod], "j", lazy.spawn("gtk-launch appimagekit_e4df0b60b9169289f37c8e3e1d3ba88b-Joplin.desktop")),
 
 ]
 
 ### GROUPS ###
 
 groups_info = [
-	("1", ""),
-	("2", ""),
-	("3", ""),
-	("4", ""),
-	("5", ""),
-	("6", ""),
-	("7", ""),
-    ("8", ""),
-    ("9", ""),
+	("1", "  "),
+	("2", "  "),
+	("3", "  "),
+	("4", "  "),
+	("5", "  "),
+	("6", "  "),
+	("7", "  "),
+    ("8", "  "),
+    ("9", "  "),
 ]
 
 groups = []
@@ -133,20 +129,21 @@ screens = [
         top=bar.Bar([
             widget.Image(
                 margin = 2,
-                filename = "~/.icons/arch.png",
-                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/umutmenu')}
+                filename = "~/.config/qtile/icons/arch.png",
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/xmenu')}
             ),
             widget.GroupBox(
                 font = "FontAwesome",
                 fontsize = 15,
                 active = color3,
+                inactive = "000000",
                 background = color4,
                 block_highlight_text_color = color2,
                 highlight_method = "line",
                 highlight_color = [color4],
                 disable_drag = True,
                 rounded = False,
-                this_current_screen_border = color1,
+                this_current_screen_border = color3,
                 this_screen_border = color3,
                 other_screen_border = color4,
             ),
@@ -242,24 +239,25 @@ screens = [
                 format = "%H:%M:%S",
             ),
             widget.Spacer(length = 4, background = color3),
-            widget.CurrentLayoutIcon(scale=0.8, background = color3),
+            widget.CurrentLayoutIcon(scale=0.8, background = color3, custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],),
             widget.Spacer(length = 4, background = color3),
         ],
         20,
-        background = color4,
+        background= color4,
         ),
     ),
     Screen(
         top=bar.Bar([
             widget.Image(
                 margin = 2,
-                filename = "~/.icons/arch.png",
-                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('umutmenu')}
+                filename = "~/.config/qtile/icons/arch.png",
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/xmenu')}
             ),
             widget.GroupBox(
                 font = "FontAwesome",
                 fontsize = 15,
                 active = color3,
+                inactive = "000000",
                 background = color4,
                 block_highlight_text_color = color2,
                 highlight_method = "line",
@@ -350,7 +348,7 @@ screens = [
                 format = "%H:%M:%S",
             ),
             widget.Spacer(length = 4, background = color3),
-            widget.CurrentLayoutIcon(scale=0.8, background = color3),
+            widget.CurrentLayoutIcon(scale=0.8, background = color3, custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],),
             widget.Spacer(length = 4, background = color3),
         ],
         20,

@@ -1,0 +1,61 @@
+#!/bin/sh
+
+cat <<EOF | xmenu | sh &
+Internet
+	Firefox	firefox
+	Tor Browser	torbrowser-launcher
+Office & Tools
+	Okular	okular
+	Libre Office	libreoffice
+	Xarchiver	xarchiver
+	GPick	gpick
+	Flameshot Config	flameshot config
+	Joplin	gtk-launch appimagekit_e4df0b60b9169289f37c8e3e1d3ba88b-Joplin.desktop
+Game
+	Lutris	lutris
+	Steam	steam
+	Minecraft	minecraft-launcher
+Programming
+	Visual Studio Code	code
+	Bootstrap Studio	gtk-launch appimagekit_19a4bec5e066d7c8ce0ca398560c9f6b-Bootstrap_Studio.desktop
+	Sublime Text	subl
+Productivity Tools
+	Kdenlive	kdenlive
+	Gimp	gimp
+	OBS Studio	obs
+Settings
+	Audio Control	pavucontrol
+	Bluetooth Control	blueman-manager
+	Display Arrangement	arandr
+	Kvantum Manager	kvantummanager
+	Nvidia Settings	nvidia-settings
+	Qt5 Settings	qt5ct
+	Wallpaper	nitrogen
+Communication
+	Discord	discord
+	Mail	thunderbird
+	Telegram	telegram-desktop
+	Signal	signal-desktop
+	Whatsdesk	whatsdesk
+	Zoom	zoom
+Media
+	LXImage	lximage-qt
+	Spotify spotify
+	VLC	vlc
+Accessories
+	AppImage Launcher	gtk-launch appimagelauncher.desktop
+	AppImage Launcher Settings	gtk-launch appimagelaunchersettings.desktop
+	Font Manager	font-manager
+	Font Viewer	gtk-launch org.gnome.FontViewer.desktop
+	Superpaper	gtk-launch appimagekit_d8f0fa2d7c8caadacbdd5d01ae5db3e5-Superpaper.desktop
+
+Terminal	alacritty
+Shut Down
+	Shut Down
+		Shut Down
+			Shut Down	poweroff
+Reboot
+	Reboot
+		Reboot
+			Reboot	reboot
+EOF

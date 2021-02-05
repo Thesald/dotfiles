@@ -1,4 +1,4 @@
 #!/bin/sh
 notify-send "DUNST_COMMAND_PAUSE"
-i3lock -c 000000 -e -f -n
+i3lock -c 000000 --insidevercolor=282a2e --insidewrongcolor=282a2e --insidecolor=282a2e --ringvercolor=cc6666 --ringcolor=cc6666 --line-uses-inside --timecolor=ffffff --datecolor=ffffff --separatorcolor=cc6666 
 notify-send "DUNST_COMMAND_RESUME"

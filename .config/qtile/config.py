@@ -20,7 +20,7 @@ layout_theme_1 = {
     "border_focus_stack": color2,
     "border_normal": color4,
     "border_normal_stack": color4,
-    "margin": 3,
+    "margin": 0,
     "border_width": 1,
 }
 widget_theme_1 = {
@@ -45,9 +45,9 @@ keys = [
     ### QTILE AND SYSTEM COMMANDS ###
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer -d 2")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer -i 2")),
-    Key([], "XF86AudioMute", lazy.spawn("pamixer -t")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("./.config/qtile/scripts/volume_down")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("./.config/qtile/scripts/volume_up")),
+    Key([], "XF86AudioMute", lazy.spawn("./.config/qtile/scripts/volume_mute")),
 
 
     ### WINDOW CONTROLS ###
@@ -74,8 +74,7 @@ keys = [
 
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
-    Key([mod], "r", lazy.spawn("rofi -show run")),
-    Key(["control"], "space", lazy.spawn("rofi -show combi -combi-modi 'run,drun' -modi combi")),
+    Key([mod], "r", lazy.spawn("rofi -show combi -combi-modi 'run,drun' -modi combi")),
     Key([alt], "Tab", lazy.spawn("rofi -show window")),
     Key([], "Print", lazy.spawn("flameshot gui")),
     Key([mod], "m", lazy.spawn("./.config/qtile/scripts/xmenu")),
@@ -90,15 +89,16 @@ keys = [
 ### GROUPS ###
 
 groups_info = [
-	("1", "  "),
+	("1", "  "),
 	("2", "  "),
 	("3", "  "),
 	("4", "  "),
 	("5", "  "),
-	("6", "  "),
-	("7", "  "),
-    ("8", "  "),
-    ("9", "  "),
+	("6", "  "),
+	("7", "  "),
+    ("8", "  "),
+    ("9", "  "),
+    ("0", "  "),
 ]
 
 groups = []
@@ -127,11 +127,6 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar([
-            widget.Image(
-                margin = 2,
-                filename = "~/.config/qtile/icons/arch.png",
-                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/xmenu')}
-            ),
             widget.GroupBox(
                 font = "FontAwesome",
                 fontsize = 15,
@@ -143,7 +138,7 @@ screens = [
                 highlight_color = [color4],
                 disable_drag = True,
                 rounded = False,
-                this_current_screen_border = color3,
+                this_current_screen_border = color1,
                 this_screen_border = color3,
                 other_screen_border = color4,
             ),
@@ -240,7 +235,10 @@ screens = [
             ),
             widget.Spacer(length = 4, background = color3),
             widget.CurrentLayoutIcon(scale=0.8, background = color3, custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],),
-            widget.Spacer(length = 4, background = color3),
+            widget.Spacer(
+                length = 1,
+                mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/xmenu')}
+            ),
         ],
         20,
         background= color4,
@@ -248,9 +246,8 @@ screens = [
     ),
     Screen(
         top=bar.Bar([
-            widget.Image(
-                margin = 2,
-                filename = "~/.config/qtile/icons/arch.png",
+            widget.Spacer(
+                length = 1,
                 mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('./.config/qtile/scripts/xmenu')}
             ),
             widget.GroupBox(
@@ -363,7 +360,7 @@ mouse = [
          start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None

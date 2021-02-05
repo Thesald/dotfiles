@@ -1,0 +1,11 @@
+#!/bin/sh
+pamixer -d 2
+msgId="991049"
+volume="$(pamixer --get-volume)"
+mute="$(pamixer --get-mute)"
+if [[ $volume == 0 || "$mute" == "true" ]]; then
+    dunstify -a "changeVolume" -u low -i audio-volume-muted -r "$msgId" "Volume muted" 
+else
+    dunstify -a "changeVolume" -u low -i audio-volume-high -r "$msgId" \
+    "Volume: ${volume}%" "$(getProgressString 10 "<b> </b>" " " $volume)"
+fi

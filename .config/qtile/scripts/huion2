@@ -1,0 +1,2 @@
+#!/bin/sh
+xinput set-prop "HUION Huion Tablet Pen stylus" "Coordinate Transformation Matrix" 0.5, 0, 0, 0, 1, 0, 0, 0, 1

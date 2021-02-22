@@ -4,7 +4,6 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
 
-### Variables ###
 mod = "mod4"
 alt = "mod1"
 control = "control"
@@ -35,6 +34,7 @@ blue1 = "1f232d"
 blue2 = "81a1c1"
 blue3 = "82aaff"
 blue4 = "6182b8"
+blue5 = "0e2e6f"
 cyan1 = "8fbcbb"
 cyan2 = "88c0d0"
 cyan3 = "89ddff"
@@ -55,7 +55,6 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("./.config/qtile/scripts/volume_down")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("./.config/qtile/scripts/volume_up")),
     Key([], "XF86AudioMute", lazy.spawn("./.config/qtile/scripts/volume_mute")),
-
     ### WINDOW CONTROLS ###
     Key([mod, shift], "h", lazy.layout.shuffle_left()),
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
@@ -71,26 +70,26 @@ keys = [
     Key([mod, shift], "m", lazy.window.toggle_minimize()),
     Key([mod, shift], "x", lazy.window.toggle_fullscreen()),
     Key([mod], "Tab", lazy.group.next_window()),
-    Key([mod], 'q', lazy.next_screen()),
+    Key([mod], "q", lazy.next_screen()),
     Key([mod], "space", lazy.next_layout()),
     Key([mod, shift], "a", lazy.layout.toggle_split()),
-    Key([mod], "a", lazy.layout.up()),
     Key([mod, shift], "f", lazy.window.toggle_floating()),
     Key([mod], "w", lazy.window.kill()),
-
+    Key([alt], "Tab", lazy.screen.next_group()),
+    Key([alt, shift], "Tab", lazy.screen.prev_group()),
     ### APPLICATION BINDINGS ###
     Key([mod], "Return", lazy.spawn(myterm)),
     Key([control, alt], "t", lazy.spawn(myterm)),
     Key([mod], "r", lazy.spawn("rofi -show combi -combi-modi 'run,drun' -modi combi")),
-    Key([alt], "Tab", lazy.spawn("rofi -show window")),
     Key([], "Print", lazy.spawn("flameshot gui")),
     Key([mod], "m", lazy.spawn("./.config/qtile/scripts/xmenu")),
     Key([mod], "e", lazy.spawn("pcmanfm")),
     Key([mod, control, alt], "l", lazy.spawn("./.config/qtile/scripts/i3lock_black")),
     Key([mod], "l", lazy.spawn("./.config/qtile/scripts/i3lock")),
     Key([], "Scroll_Lock", lazy.spawn("notify-send 'DUNST_COMMAND_TOGGLE'")),
-    Key([mod], "j", lazy.spawn("gtk-launch appimagekit_e4df0b60b9169289f37c8e3e1d3ba88b-Joplin.desktop")),
-
+    Key([control, alt, shift], "F11", lazy.spawn("./.config/qtile/scripts/huion1")),
+    Key([control, alt, shift], "F12", lazy.spawn("./.config/qtile/scripts/huion2")),
+    Key([control, alt, shift], "F10", lazy.spawn("./.config/qtile/scripts/huion")),
 ]
 
 ### GROUPS ###
@@ -108,7 +107,6 @@ groups_info = [
     ("9", ""),
     ("0", ""),
 ]
-
 groups = []
 for key, icon in groups_info:
 	groups.append(Group(icon))
@@ -121,6 +119,14 @@ layout_theme_1 = {
     "border_normal": blue1,
     "border_normal_stack": blue1,
     "margin": 5,
+    "border_width": 1,
+}
+layout_theme_2 = {
+    "border_focus": magenta2,
+    "border_focus_stack": magenta2,
+    "border_normal": blue1,
+    "border_normal_stack": blue1,
+    "margin": 0,
     "border_width": 1,
 }
 
@@ -158,37 +164,71 @@ widget_groupbox_1 = {
     "block_highlight_text_color": cyan2,
     "highlight_method": "line",
     "this_current_screen_border": cyan2,
-    "this_screen_border": grey3,
+    "this_screen_border": cyan2,
     "other_screen_border": grey3,
     "other_current_screen_border": grey3,
     "background": blue1,
     "urgent_border": red2,
+    "hide_unused": False,
 }
 widget_tasklist_1 = {
     "font": "Noto Sans Display Medium",
     "highlight_method": "block",
     "padding": 5,
-    "margin": 0,
     "spacing": 2,
+    "margin_y": 0,
     "max_title_width": 200,
-    "icon_size": 14,
-    "foreground": cyan2,
-    "background": blue1,
-    "border": grey2,
-    "unfocused_border": blue1,
-    "rounded": False,
+    "icon_size": 10,
+    "foreground": yellow1,
+    "background": grey2,
+    "border": blue1,
+    "unfocused_border": grey2,
+    "rounded": True,
     "txt_floating": "",
     "txt_minimized": "",
     "txt_maximized": "",
 }
 widget_currentlayouticon_1 = {
     "custom_icon_paths": [os.path.expanduser("~/.config/qtile/icons")],
-    "background": grey2,
-    "scale": 0.8,
+    "background": blue1,
+    "scale": 0.6,
 }
 widget_spacer_1 = {
     "background": grey2,
     "width": 6,
+}
+widget_spacer_2 = {
+    "background": blue1,
+    "width": 6,
+}
+widget_memory_1 = {
+    "format": "{MemUsed}M ",
+    "background": blue1,
+    "foreground": orange1,
+    "mouse_callbacks": {'Button1': lambda qtile: qtile.cmd_spawn(myterm + " -e bpytop")},
+}
+widget_cpu_1 = {
+    "format": "{freq_current}GHz {load_percent}%  ",
+    "background": blue1,
+    "foreground": orange1,
+    "mouse_callbacks": {'Button1': lambda qtile: qtile.cmd_spawn(myterm + " -e bpytop")},
+}
+widget_net_1 = {
+    "format": "↓{down} ↑{up}  ",
+    "foreground": magenta2,
+    "background": blue1,
+    "mouse_callbacks": {'Button1': lambda qtile: qtile.cmd_spawn("nm-connection-editor")},
+}
+widget_clock_1 = {
+    "format": "%a, %b %d ",
+    "background": blue1,
+    "foreground": green2,
+}
+widget_clock_2 = {
+    "format": "%H:%M:%S ",
+    "mouse_callbacks": {'Button1': lambda qtile: qtile.cmd_spawn(myterm + " -e tty-clock -scb")},
+    "background": blue1,
+    "foreground": cyan2,
 }
 widget_defaults = dict(
     font = 'JetBrains Mono',
@@ -196,116 +236,65 @@ widget_defaults = dict(
     padding = 0,
 )
 
+def main_screen_widgets():
+    main_widgets_list = [
+        widget.Spacer(**widget_spacer_2),
+        widget.GroupBox(**widget_groupbox_1, visible_groups = ("", "")),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.GroupBox(**widget_groupbox_1, visible_groups = ("", "", "", "", "", "", "", "", "", "")),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TaskList(**widget_tasklist_1),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Systray(padding = 5, background = blue1),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Memory(**widget_memory_1),
+        widget.CPU(**widget_cpu_1),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Net(**widget_net_1),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Clock(**widget_clock_1),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Clock(**widget_clock_2),
+        widget.CurrentLayoutIcon(**widget_currentlayouticon_1),
+        widget.Spacer(**widget_spacer_2),
+    ]
+    return main_widgets_list
+
+def other_screen_widgets():
+    other_widgets_list = [
+        widget.Spacer(**widget_spacer_2),
+        widget.GroupBox(**widget_groupbox_1, visible_groups = ("", "")),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.GroupBox(**widget_groupbox_1, visible_groups = ("", "", "", "", "", "", "", "", "", "")),
+        widget.TextBox(**widget_textbox_2),
+        widget.Spacer(**widget_spacer_1),
+        widget.TaskList(**widget_tasklist_1),
+        widget.Spacer(**widget_spacer_1),
+        widget.TextBox(**widget_textbox_1),
+        widget.Clock(**widget_clock_2),
+        widget.CurrentLayoutIcon(**widget_currentlayouticon_1),
+        widget.Spacer(**widget_spacer_2),
+    ]
+    return other_widgets_list
+
 screens = [
-    Screen(
-        top = bar.Bar(
-            [
-                widget.TextBox(**widget_textbox_1),
-                widget.GroupBox(
-                    **widget_groupbox_1,
-                    visible_groups = ("", ""),
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.GroupBox(
-                    **widget_groupbox_1,
-                    visible_groups = ("", "", "", "", "", "", "", "", "", ""),
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.TaskList(**widget_tasklist_1),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.Systray(padding = 5, background = blue1),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.Memory(
-                    format = "{MemUsed}M ",
-                    background = blue1,
-                    foreground = orange1,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(myterm + " -e bpytop")},
-                ),
-                widget.CPU(
-                    format = "{freq_current}GHz {load_percent}%  ",
-                    background = blue1,
-                    foreground = orange1,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(myterm + " -e bpytop")},
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.Net(
-                    format = "↓{down} ↑{up}  ",
-                    foreground = magenta2,
-                    background = blue1,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn("nm-connection-editor")},
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.Clock(
-                    format="%a, %b %d ",
-                    background=blue1,
-                    foreground=yellow1,
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.Clock(
-                    format="%H:%M:%S ",
-                    background=blue1,
-                    foreground=green2,
-                ),
-                widget.TextBox(
-                    text = "",
-                    font = "Iosevka",
-                    background = blue1,
-                    foreground = green2,
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.CurrentLayoutIcon(**widget_currentlayouticon_1),
-                widget.Spacer(**widget_spacer_1),
-            ],
-            25,
-            margin=[6,6,6,6],
-            background=grey2,
-        ),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.TextBox(**widget_textbox_1),
-                widget.GroupBox(
-                    **widget_groupbox_1,
-                    visible_groups = ("", ""),
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.GroupBox(
-                    **widget_groupbox_1,
-                    visible_groups = ("", "", "", "", "", "", "", "", "", ""),
-                ),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.TextBox(**widget_textbox_1),
-                widget.TaskList(**widget_tasklist_1),
-                widget.TextBox(**widget_textbox_2),
-                widget.Spacer(**widget_spacer_1),
-                widget.CurrentLayoutIcon(**widget_currentlayouticon_1),
-                widget.Spacer(**widget_spacer_1),
-            ],
-            25,
-            margin=[6,6,6,6],
-            background=grey2,
-        ),
-    ),
-]
+    Screen(top=bar.Bar(widgets=main_screen_widgets(), size=25, margin=[5,0,0,0], background=grey2)),
+    Screen(top=bar.Bar(widgets=other_screen_widgets(), size=25, margin=[5,0,0,0], background=grey2))
+    ]
 
 # Drag floating layouts.
 mouse = [
@@ -323,7 +312,7 @@ follow_mouse_focus = True
 bring_front_click = "floating_only"
 cursor_warp = False
 floating_layout = layout.Floating(
-    **layout_theme_1,
+    **layout_theme_2,
     float_rules=[
         {'wmclass': 'confirm'},
         {'wmclass': 'dialog'},
@@ -342,6 +331,8 @@ floating_layout = layout.Floating(
         {'wmclass': 'zoom'},
         {"wname": "Confirm File Replacing"},
         {"wmclass": "nm-connection-editor"},
+        {"wmclass": "osu!.exe"},
+        {"wmclass": "Wine"},
     ]
 )
 auto_fullscreen = True
